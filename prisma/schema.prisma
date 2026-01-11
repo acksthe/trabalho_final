@@ -1,0 +1,29 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Car {
+  id            String   @id
+  licensePlate  String   @unique
+  available     Boolean  @default(true)
+
+  rentals       Rental[]
+}
+
+model Rental {
+  id                 String   @id
+  userId             String
+  carId              String
+  startDate          DateTime
+  expectedReturnDate DateTime
+  endDate            DateTime?
+  total              Float?
+
+  car                Car      @relation(fields: [carId], references: [id])
+}
