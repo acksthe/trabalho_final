@@ -1,7 +1,7 @@
 import { Rental } from "../../../domain/entities/Rental";
 import { IRentalRepository } from "../../../domain/repositories/IRentalRepository";
 import { ICarRepository } from "../../../domain/repositories/ICarRepository";
-import { CreateRentalDTO } from "../createRental/CreateRentalDTO";
+import { CreateRentalDTO } from "./CreateRentalDTO";
 
 import { randomUUID } from "crypto"; // randomUUID: gera um ID aleatório para o aluguel do carro
 
@@ -26,7 +26,7 @@ export class CreateRentalUseCase {
     }
 
     if (!car.isAvailable()) {
-      throw new Error("Carro indisponível."); // Em caso de carro não existente
+      throw new Error("Carro indisponível."); // Em caso de carro existir, mas não estar disponível
     }
 
     const openRentalByCar = await this.rentalRepository.findOpenRentalByCarId(carId); // em caso de carro já alugado (indisponível)
