@@ -9,6 +9,18 @@ export class Car {
         this.available = available;
     }
 
+    getId(): string{
+        return this.id;
+    }
+
+    getLicensePlate(): string{
+        return this.licensePlate;
+    }
+
+    getAvailable(): boolean{
+        return this.available;
+    }
+
     public isAvailable(): boolean {  //retorna a disponibilidade
         return this.available;
     }
