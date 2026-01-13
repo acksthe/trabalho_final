@@ -41,9 +41,8 @@ export class Rental {
     }
 
     close(endDate: Date = new Date(), total?: number): void {
+        if (!this.isOpen()) throw new Error("Aluguel já está fechado!");
         this.endDate = endDate;
-        if (total !== undefined) {
-            this.total = total;
-        }
+        if (total !== undefined) this.total = total;
     }
 }

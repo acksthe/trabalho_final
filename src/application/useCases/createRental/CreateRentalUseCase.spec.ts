@@ -69,4 +69,17 @@ describe("CreateRentalUseCase", () => {
             })
         ).rejects.toThrow();
     });
+
+    it("não deve permitir dois alugueis abertos para o mesmo usuário", async () => {
+        const car1 = new Car("car-1", "ABC-1234", true);
+        const car2 = new Car("car-2", "DEF-5678", true);
+        await carRepository.create(car1);
+        await carRepository.create(car2);
+
+        const expectedReturnDate = new Date(Date.now() + 25 * 60 * 60 * 1000);
+
+        await createRentalUseCase.execute({ userId: "user-1", carId: "car-1", expectedReturnDate });
+
+        await expect(createRentalUseCase.execute({ userId: "user-1", carId: "car-2", expectedReturnDate })).rejects.toThrow();
+    });
 });
