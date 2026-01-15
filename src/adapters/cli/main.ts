@@ -1,19 +1,15 @@
-import { PrismaCarRepository } from "../../infra/database/prisma/PrismaCarRepository";
-import { PrismaRentalRepository } from "../../infra/database/prisma/PrismaRentalRepository";
+import "reflect-metadata";
+import { container } from "../../infra/container";
+import { TYPES } from "../../infra/container/types";
 
 import { CreateRentalUseCase } from "../../application/useCases/createRental/CreateRentalUseCase";
+import { ICarRepository } from "../../domain/repositories/ICarRepository";
 import { Car } from "../../domain/entities/Car";
 
 async function main() {
-    const carRepository = new PrismaCarRepository();
-    const rentalRepository = new PrismaRentalRepository();
+    const createRentalUseCase = container.get<CreateRentalUseCase>(TYPES.CreateRentalUseCase);
+    const carRepository = container.get<ICarRepository>(TYPES.CarRepository);
 
-    const createRentalUseCase = new CreateRentalUseCase(
-        rentalRepository,
-        carRepository
-    );
-
-    //Garantir que tem um carro no banco
     const carId = "car-1";
     const licensePlate = "ABC-1234";
 
@@ -22,15 +18,8 @@ async function main() {
     if (!existingCar) {
         await carRepository.create(new Car(carId, licensePlate, true));
         console.log("Carro criado no banco:", { carId, licensePlate });
-    } else {
-        console.log("Carro já existia no banco:", {
-            carId: existingCar.getId(),
-            licensePlate: existingCar.getLicensePlate(),
-            available: existingCar.isAvailable(),
-        });
     }
 
-    //Criar um aluguel, retorno previsto +25h
     const expectedReturnDate = new Date(Date.now() + 25 * 60 * 60 * 1000);
 
     const rental = await createRentalUseCase.execute({
@@ -49,7 +38,6 @@ async function main() {
         total: rental.getTotal(),
     });
 
-    //Confirmar que o carro ficou indisponível
     const updatedCar = await carRepository.findByID(carId);
     console.log("Status do carro após aluguel:", {
         carId: updatedCar?.getId(),

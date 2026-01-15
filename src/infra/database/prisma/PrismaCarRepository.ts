@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { Car } from "../../../domain/entities/Car";
 import { ICarRepository } from "../../../domain/repositories/ICarRepository";
 import { prisma } from "./client";
@@ -7,6 +9,7 @@ import { prisma } from "./client";
  * Converte dados do Prisma para a Entidade do domínio e vice-versa
  */
 
+@injectable()
 export class PrismaCarRepository implements ICarRepository {
     async create(car: Car): Promise<void> {
         await prisma.car.create({

@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { Rental } from "../../../domain/entities/Rental";
 import { IRentalRepository } from "../../../domain/repositories/IRentalRepository";
 import { prisma } from "./client";
@@ -7,6 +9,7 @@ import { prisma } from "./client";
  * Responsável por persistir e recuperar dados de aluguel do banco
  */
 
+@injectable()
 export class PrismaRentalRepository implements IRentalRepository {
     async create(rental: Rental): Promise<void> {
         await prisma.rental.create({

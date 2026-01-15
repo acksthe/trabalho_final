@@ -1,3 +1,6 @@
+import { injectable, inject } from "inversify";
+import { TYPES } from "../../../infra/container/types";
+
 import { Rental } from "../../../domain/entities/Rental";
 import { IRentalRepository } from "../../../domain/repositories/IRentalRepository";
 import { ICarRepository } from "../../../domain/repositories/ICarRepository";
@@ -5,10 +8,11 @@ import { CreateRentalDTO } from "./CreateRentalDTO";
 
 import { randomUUID } from "crypto"; // randomUUID: gera um ID aleatório para o aluguel do carro
 
+@injectable()
 export class CreateRentalUseCase {
   constructor(
-    private rentalRepository: IRentalRepository,
-    private carRepository: ICarRepository
+    @inject(TYPES.RentalRepository) private rentalRepository: IRentalRepository,
+    @inject(TYPES.CarRepository) private carRepository: ICarRepository
   ) {}
 
   async execute({ userId, carId, expectedReturnDate }: CreateRentalDTO): Promise<Rental> {
