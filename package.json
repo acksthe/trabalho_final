@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "dev": "tsx src/adapters/cli/main.ts",
+    "prisma:generate": "prisma generate --schema src/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema src/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
@@ -15,14 +18,15 @@
   },
   "devDependencies": {
     "@types/node": "^25.0.6",
-    "prisma": "^7.2.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.17"
   },
   "dependencies": {
-    "@prisma/client": "^7.2.0",
+    "@prisma/client": "^6.19.2",
     "inversify": "^7.11.0",
+    "prisma": "^6.19.2",
     "reflect-metadata": "^0.2.2"
   }
 }
