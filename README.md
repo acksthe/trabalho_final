@@ -14,45 +14,56 @@ Fluxo das Camadas
 
 ---
 
-***adapters:*** **Porta de entrada do sistema;**
+***`adapters`:*** **Porta de entrada do sistema;**
 
-***application:*** **Regras de negócio, os casos de uso;**
+***`application`:*** **Regras de negócio, os casos de uso;**
 
-***domain:*** **Entidades e Interfaces, definindo contratos do sistema;**
+***`domain`:*** **Entidades e Interfaces, definindo contratos do sistema;**
 
-***infra:*** **Implementação das interfaces, inclui repositórios Prisma (persistência real), repositórios InMemory (para testes) e o container (Inversify), responsável por ligar as interfaces às implementações concretas.**
+***`infra`:*** **Implementação das interfaces, inclui repositórios Prisma (persistência real), repositórios InMemory (para testes) e o container (Inversify), responsável por ligar as interfaces às implementações concretas.**
 
 ## Preparação do Ambiente
-***Após, clonar o repo, no terminal do próprio vs code rode esses comandos, para preparar o ambiente.***
+***Após, clonar o repo, no terminal do próprio vs code rode esse comando, para preparar o ambiente.***
+
 ```
-  npm init -y
-  npm install typescript ts-node --save-dev
+  npm install
 ```
 
-***OBS:*** **Não é necessário usar esse comando, porque no repo já tem o tsconfig.json**
+***O projeto utiliza TypeScript, Prisma, Vitest e Inversify. As dependências já estão declaradas no `package.json`, não sendo necessário instalá-las individualmente.***
+
+
+## Execução
+***Comandos:***
+
 ```
-  npx tsc --init
+  npm run prisma:migrate  // prepara o banco de dados
+  npm run prisma:generate  // gerar prisma client
+  npm run dev  // roda o sistema
 ```
 
-## Prisma
+## Tecnologias Utilizadas
+### Prisma
+***A persistência de dados foi implementada com Prisma, permitindo isolar o acesso ao banco de dados na camada de infraestrutura.***
+
 ```
   npm install prisma --save-dev
   npx prisma init
   npm install @prisma/client
-```
-
-```
   npx prisma migrate dev --name init
   npx prisma generate
 ```
 
-## Vitest
+### Vitest
+***Os testes unitários utilizam repositórios em memória, garantindo que as regras de negócio sejam testadas de forma isolada.***
+
 ```
   npm install -D @types/node
   npm i -D vitest
 ```
 
-## Inversify
+### Inversify
+***A injeção de dependências é realizada com Inversify, evitando o acoplamento direto entre casos de uso e implementações concretas***
+
 ```
   npm install inversify reflect-metadata
   npm install -D tsx
