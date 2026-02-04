@@ -17,10 +17,6 @@ export class Car {
         return this.licensePlate;
     }
 
-    getAvailable(): boolean{
-        return this.available;
-    }
-
     public isAvailable(): boolean {  //retorna a disponibilidade
         return this.available;
     }
